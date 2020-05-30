@@ -26,6 +26,14 @@ const getTypes = (items) => {
 }
 // END
 
+const getTypesPromiseAll = (items) => {
+  return Promise.all(items.map(item => {
+    return fs.stat(item)
+      .then(res => res.isDirectory() ? 'directory' : 'file')
+      .catch(() => null)
+  }))
+}
+
 // BEGIN teacher's decision
 const getTypeName = (stat) => (stat.isDirectory() ? 'directory' : 'file')
 
@@ -44,5 +52,5 @@ const getTypes1 = (filesPath) => {
 // END
 
 module.exports = {
-  getTypes: getTypes
+  getTypes: getTypesPromiseAll
 }
